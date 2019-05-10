@@ -1,19 +1,8 @@
 #!/bin/sh
 
 # erzeugt Donnerstag, 09. Mai 2019 15:53 (C) 2019 von Leander Jedamus
-# modifiziert Freitag, 10. Mai 2019 17:55 von Leander Jedamus
+# modifiziert Freitag, 10. Mai 2019 17:57 von Leander Jedamus
 # modifiziert Donnerstag, 09. Mai 2019 21:53 von Leander Jedamus
-
-# Anzahl Spalten
-spalten=4
-
-# Dateiendung der Grafikdateien
-suffix="eps"
-
-# Output LaTeX-Datei
-output_file="create.tex"
-
-#set -x
 
 usage()
 {
@@ -79,7 +68,7 @@ while [ ! -z $1 ]; do
   fi
 done
 
-echo "nr_of_rows = $spalten, output_file=$output_file, suffix=$suffix, files=$files"
+#echo "nr_of_rows = $spalten, output_file=$output_file, suffix=$suffix, files=$files"
 
 (
 
