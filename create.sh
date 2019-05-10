@@ -1,24 +1,73 @@
 #!/bin/sh
 
 # erzeugt Donnerstag, 09. Mai 2019 15:53 (C) 2019 von Leander Jedamus
-# modifiziert Freitag, 10. Mai 2019 14:00 von Leander Jedamus
+# modifiziert Freitag, 10. Mai 2019 17:27 von Leander Jedamus
 # modifiziert Donnerstag, 09. Mai 2019 21:53 von Leander Jedamus
 
 # Anzahl Spalten
 spalten=4
 
 # Dateiendung der Grafikdateien
-gr="eps"
+suffix="eps"
 
 # Output LaTeX-Datei
 output_file="create.tex"
 
+usage()
+{
+  echo "usage: $0 -r <nr_of_rows> -o <output_file> -s <graphic_suffix>"
+  exit 1
+};# usage
+
+if [ -z $6 ]; then
+  usage
+else if [ -z $5 ]; then
+  usage
+else if [ -z $4 ]; then
+  usage
+else if [ -z $3 ]; then
+  usage
+else if [ -z $2 ]; then
+  usage
+else if [ -z $1 ]; then
+  usage
+fi fi fi fi fi fi
+if [ $1 != "-r" ]; then
+  usage
+else
+  shift
+  nr=$1
+  shift
+  spalten=$(( $nr ))
+  if [ $spalten -lt 2 ]; then
+    echo "<nr_of_rows> < 2!"
+    usage
+  else
+    if [ $1 != "-o" ]; then
+      usage
+    else
+      shift
+      output_file=$1
+      shift
+      if [ $1 != "-s" ]; then
+        usage
+      else
+        shift
+	suffix=$1
+	shift
+      fi
+    fi
+  fi
+fi
+
+#echo "nr_of_rows = $spalten, output_file=$output_file, suffix=$suffix"
+
 # files enthält die Grafikdateien, die in dem PDF angezeigt werden sollen
 files=""
 for dir in graphics_universe/eps_01 graphics_universe/eps_02 graphics_universe/eps_03 graphics_universe/eps_04; do
-  files="$files $dir/*.$gr"
+  files="$files $dir/*.$suffix"
 done
-files="cartoon_clips/*.$gr $files"
+files="cartoon_clips/*.$suffix $files"
 
 (
 
@@ -32,6 +81,7 @@ done
 
 echo '\\documentclass[12pt]{scrartcl}'
 echo "% erzeugt Donnerstag, 09. Mai 2019 15:49 (C) 2019 von Leander Jedamus"
+echo "% modifiziert Freitag, 10. Mai 2019 17:22 von Leander Jedamus"
 echo "% modifiziert Donnerstag, 09. Mai 2019 21:50 von Leander Jedamus"
 echo ""
 
