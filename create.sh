@@ -1,12 +1,14 @@
 #!/bin/sh
 
 # erzeugt Donnerstag, 09. Mai 2019 15:53 (C) 2019 von Leander Jedamus
+# modifiziert Samstag, 11. Mai 2019 01:04 von Leander Jedamus
 # modifiziert Freitag, 10. Mai 2019 21:50 von Leander Jedamus
 # modifiziert Donnerstag, 09. Mai 2019 21:53 von Leander Jedamus
 
 usage()
 {
-  echo "usage: $0 -r <nr_of_rows> -o <output_file> -s <graphic_suffix> -d <dir1> ..."
+  echo "usage: $0\t-r|--rows <nr_of_rows> -o|--output <output_file>"
+  echo "\t\t\t-s|--suffix <graphic_suffix> -d|--dir <dir1> ..."
   exit 1
 };# usage
 
@@ -14,31 +16,39 @@ files=""
 spalten=4
 output_file="create.tex"
 suffix=""
-EQ=""
+SP=""
 
-if [ -z $8 ]; then
-  usage
-fi
+TEMP=`getopt -o r:o:s:d: --longoptions rows:,output:,suffix:,dir: \
+     -n 'opt.sh' -- "$@"`
 
-while getopts r:o:s:d: op; do
-  case $op in
-    r)         spalten=$(( $OPTARG ))
-               if [ $spalten -lt 2 ]; then
-	         echo "<nr_of_rows> < 2!"
-		 usage
-	       fi;;
-    o)         output_file=$OPTARG;;
-    s)         suffix=$OPTARG;;
-    d)         if [ -z $suffix ]; then
-                 echo "set -s first!"
-		 usage
-               fi
-               files="$files$EQ$OPTARG/*.$suffix"
-	       EQ=" ";;
-    \?)        usage
+if [ $? != 0 ] ; then echo "Terminating..." >&2 ; exit 1 ; fi
+
+eval set -- "$TEMP"
+
+while true; do
+  case $1 in
+    -r|--rows)   spalten=$(( $2 ))
+                 if [ $spalten -lt 2 ]; then
+	           echo "<nr_of_rows> < 2!"
+		   usage
+	         fi
+                 shift 2;;
+    -o|--output) output_file=$2
+                 shift 2;;
+    -s|--suffix) suffix=$2
+                 shift 2;;
+    -d|--dir)    if [ -z $suffix ]; then
+                   echo "set -s first!"
+		   usage
+                 fi
+                 files="$files$SP$2/*.$suffix"
+	         SP=" "
+		 shift 2;;
+    --)          shift ; break;;
+    *)           echo "Internal error!" ; exit 1 ;;
   esac
 done
-shift `expr $OPTIND - 1`
+
 if [ -z $suffix ]; then
   suffix="png"
 fi
@@ -47,6 +57,7 @@ if [ -z "$files" ]; then
 fi
 
 echo "nr_of_rows = $spalten, output_file=$output_file, suffix=$suffix, files=$files"
+exit 0
 
 (
 
