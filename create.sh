@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # erzeugt Donnerstag, 09. Mai 2019 15:53 (C) 2019 von Leander Jedamus
-# modifiziert Freitag, 10. Mai 2019 18:33 von Leander Jedamus
+# modifiziert Freitag, 10. Mai 2019 20:59 von Leander Jedamus
 # modifiziert Donnerstag, 09. Mai 2019 21:53 von Leander Jedamus
 
 usage()
@@ -10,68 +10,35 @@ usage()
   exit 1
 };# usage
 
-if [ -z $6 ]; then
-  usage
-else if [ -z $5 ]; then
-  usage
-else if [ -z $4 ]; then
-  usage
-else if [ -z $3 ]; then
-  usage
-else if [ -z $2 ]; then
-  usage
-else if [ -z $1 ]; then
-  usage
-fi fi fi fi fi fi
-if [ $1 != "-r" ]; then
-  usage
-else
-  shift
-  nr=$1
-  shift
-  spalten=$(( $nr ))
-  if [ $spalten -lt 2 ]; then
-    echo "<nr_of_rows> < 2!"
-    usage
-  else
-    if [ $1 != "-o" ]; then
-      usage
-    else
-      shift
-      output_file=$1
-      shift
-      if [ $1 != "-s" ]; then
-        usage
-      else
-        shift
-	suffix=$1
-	shift
-      fi
-    fi
-  fi
-fi
-
-# files enthält die Grafikdateien, die in dem PDF angezeigt werden sollen
 files=""
-if [ -z $1 ]; then
+spalten=4
+output_file="create.tex"
+suffix=""
+
+if [ -z $8 ]; then
   usage
 fi
-while [ ! -z $1 ]; do
-  if [ $1 != "-d" ]; then
-    usage
-  else
-    shift
-    if [ -z $1 ]; then
-      usage
-    else
-      files="$files $1/*.$suffix"
-      shift
-      continue
-    fi
-  fi
-done
 
-#echo "nr_of_rows = $spalten, output_file=$output_file, suffix=$suffix, files=$files"
+while getopts r:o:s:d: op; do
+  case $op in
+    r)         spalten=$(( $OPTARG ))
+               if [ $spalten -lt 2 ]; then
+	         echo "<nr_of_rows> < 2!"
+		 usage
+	       fi;;
+    o)         output_file=$OPTARG;;
+    s)         suffix=$OPTARG;;
+    d)         if [ -z $suffix ]; then
+                 echo "set -s first!"
+		 usage
+               fi
+               files="$files $OPTARG/*.$suffix";;
+    \?)        usage
+  esac
+done
+shift `expr $OPTIND - 1`
+
+echo "nr_of_rows = $spalten, output_file=$output_file, suffix=$suffix, files=$files"
 
 (
 
