@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # erzeugt Donnerstag, 09. Mai 2019 15:53 (C) 2019 von Leander Jedamus
-# modifiziert Freitag, 10. Mai 2019 20:59 von Leander Jedamus
+# modifiziert Freitag, 10. Mai 2019 21:50 von Leander Jedamus
 # modifiziert Donnerstag, 09. Mai 2019 21:53 von Leander Jedamus
 
 usage()
@@ -14,6 +14,7 @@ files=""
 spalten=4
 output_file="create.tex"
 suffix=""
+EQ=""
 
 if [ -z $8 ]; then
   usage
@@ -32,11 +33,18 @@ while getopts r:o:s:d: op; do
                  echo "set -s first!"
 		 usage
                fi
-               files="$files $OPTARG/*.$suffix";;
+               files="$files$EQ$OPTARG/*.$suffix"
+	       EQ=" ";;
     \?)        usage
   esac
 done
 shift `expr $OPTIND - 1`
+if [ -z $suffix ]; then
+  suffix="png"
+fi
+if [ -z "$files" ]; then
+  files="./*.$suffix"
+fi
 
 echo "nr_of_rows = $spalten, output_file=$output_file, suffix=$suffix, files=$files"
 
