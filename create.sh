@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # erzeugt Donnerstag, 09. Mai 2019 15:53 (C) 2019 von Leander Jedamus
-# modifiziert Freitag, 10. Mai 2019 17:27 von Leander Jedamus
+# modifiziert Freitag, 10. Mai 2019 17:55 von Leander Jedamus
 # modifiziert Donnerstag, 09. Mai 2019 21:53 von Leander Jedamus
 
 # Anzahl Spalten
@@ -13,9 +13,11 @@ suffix="eps"
 # Output LaTeX-Datei
 output_file="create.tex"
 
+#set -x
+
 usage()
 {
-  echo "usage: $0 -r <nr_of_rows> -o <output_file> -s <graphic_suffix>"
+  echo "usage: $0 -r <nr_of_rows> -o <output_file> -s <graphic_suffix> -d <dir>"
   exit 1
 };# usage
 
@@ -60,14 +62,24 @@ else
   fi
 fi
 
-#echo "nr_of_rows = $spalten, output_file=$output_file, suffix=$suffix"
-
 # files enthält die Grafikdateien, die in dem PDF angezeigt werden sollen
 files=""
-for dir in graphics_universe/eps_01 graphics_universe/eps_02 graphics_universe/eps_03 graphics_universe/eps_04; do
-  files="$files $dir/*.$suffix"
+while [ ! -z $1 ]; do
+  if [ $1 != "-d" ]; then
+    usage
+  else
+    shift
+    if [ -z $1 ]; then
+      usage
+    else
+      files="$files $1/*.$suffix"
+      shift
+      continue
+    fi
+  fi
 done
-files="cartoon_clips/*.$suffix $files"
+
+echo "nr_of_rows = $spalten, output_file=$output_file, suffix=$suffix, files=$files"
 
 (
 
