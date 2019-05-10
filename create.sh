@@ -1,12 +1,12 @@
 #!/bin/sh
 
 # erzeugt Donnerstag, 09. Mai 2019 15:53 (C) 2019 von Leander Jedamus
-# modifiziert Freitag, 10. Mai 2019 17:57 von Leander Jedamus
+# modifiziert Freitag, 10. Mai 2019 18:33 von Leander Jedamus
 # modifiziert Donnerstag, 09. Mai 2019 21:53 von Leander Jedamus
 
 usage()
 {
-  echo "usage: $0 -r <nr_of_rows> -o <output_file> -s <graphic_suffix> -d <dir>"
+  echo "usage: $0 -r <nr_of_rows> -o <output_file> -s <graphic_suffix> -d <dir1> ..."
   exit 1
 };# usage
 
@@ -53,6 +53,9 @@ fi
 
 # files enthält die Grafikdateien, die in dem PDF angezeigt werden sollen
 files=""
+if [ -z $1 ]; then
+  usage
+fi
 while [ ! -z $1 ]; do
   if [ $1 != "-d" ]; then
     usage
