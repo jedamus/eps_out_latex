@@ -1,6 +1,7 @@
 #!/bin/sh
 
 # erzeugt Donnerstag, 09. Mai 2019 15:53 (C) 2019 von Leander Jedamus
+# modifiziert Dienstag, 29. Dezember 2020 15:55 von Leander Jedamus
 # modifiziert Samstag, 11. Mai 2019 01:04 von Leander Jedamus
 # modifiziert Freitag, 10. Mai 2019 21:50 von Leander Jedamus
 # modifiziert Donnerstag, 09. Mai 2019 21:53 von Leander Jedamus
@@ -18,7 +19,7 @@ output_file="create.tex"
 suffix=""
 SP=""
 
-TEMP=`getopt -o r:o:s:d: --longoptions rows:,output:,suffix:,dir: \
+TEMP=`getopt -o r:o:s:d:h --longoptions help,rows:,output:,suffix:,dir: \
      -n 'opt.sh' -- "$@"`
 
 if [ $? != 0 ] ; then echo "Terminating..." >&2 ; exit 1 ; fi
@@ -27,6 +28,7 @@ eval set -- "$TEMP"
 
 while true; do
   case $1 in
+    -h|--help)   usage;;
     -r|--rows)   spalten=$(( $2 ))
                  if [ $spalten -lt 2 ]; then
 	           echo "<nr_of_rows> < 2!"
