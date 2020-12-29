@@ -6,5 +6,5 @@ This one creates a TeX-file. It searches and includes for example all
 ## Getting started
 
 ```
-sh make.sh
+sh ./make.sh
 ```
