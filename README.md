@@ -11,6 +11,8 @@ Perhaps you have to do this first:
 sudo apt install util-linux
 ```
 
+To make my example, do this:
+
 ```
 sh ./make.sh
 ```
