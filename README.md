@@ -5,6 +5,12 @@ This one creates a TeX-file. It searches and includes for example all
 
 ## Getting started
 
+Perhaps you have to do this first:
+
+```
+sudo apt install util-linux
+```
+
 ```
 sh ./make.sh
 ```
